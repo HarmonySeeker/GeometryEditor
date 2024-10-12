@@ -102,7 +102,7 @@ public class PrismGenerator : ShapeGenerator
 
         mesh.vertices = vertices;
         mesh.triangles = finalTriangles;
-        mesh.RecalculateNormals(); // Пересчитываем нормали
+        mesh.RecalculateNormals();
 
         return mesh;
     }

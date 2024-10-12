@@ -14,36 +14,35 @@ public class CapsuleGenerator : ShapeGenerator
 
     private void Start()
     {
-        GenerateShape(); // Генерация капсулы при старте
-        StoreLastValues(); // Сохранение текущих параметров
+        GenerateShape();
+        StoreLastValues();
     }
 
     private void Update()
     {
-        if (HasParametersChanged()) // Проверка, изменились ли параметры
+        if (HasParametersChanged())
         {
-            GenerateShape(); // Генерация новой капсулы, если параметры изменились
-            StoreLastValues(); // Сохранение новых параметров
+            GenerateShape();
+            StoreLastValues();
         }
     }
 
     // Проверка изменения параметров
     protected override bool HasParametersChanged()
     {
-        return sectors != lastSectors || height != lastHeight || radius != lastRadius; // Возвращает true, если параметры изменились
+        return sectors != lastSectors || height != lastHeight || radius != lastRadius;
     }
 
     private void StoreLastValues()
     {
-        lastSectors = sectors; // Сохранение текущего количества секторов
-        lastHeight = height; // Сохранение текущей высоты
-        lastRadius = radius; // Сохранение текущего радиуса
+        lastSectors = sectors;
+        lastHeight = height;
+        lastRadius = radius;
     }
 
     public override Mesh CreateShape()
     {
-        MeshFilter mf = new MeshFilter(); // Создание фильтра меша
-        Mesh mesh = new Mesh(); // Создание нового меша
+        Mesh mesh = new Mesh();
 
         List<Vector3> verts = new List<Vector3>(); // Список для хранения вершин
         List<int> tris = new List<int>(); // Список для хранения треугольников
@@ -133,6 +132,6 @@ public class CapsuleGenerator : ShapeGenerator
         mesh.RecalculateBounds(); // Пересчет границ меша
         mesh.RecalculateNormals(); // Пересчет нормалей меша
 
-        return mesh; // Возврат готового меша
+        return mesh;
     }
 }
