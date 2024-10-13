@@ -59,7 +59,7 @@ public class ControlPanelManager : MonoBehaviour
 
     private void SetUpSliders()
     {
-        DestroySliders();
+        RemoveSliders();
 
         sliderList = currentObject.GetComponent<ShapeGenerator>().GetSliders();
 
@@ -75,18 +75,19 @@ public class ControlPanelManager : MonoBehaviour
         if (currentObject != null)
         {
             Destroy(currentObject);
-            DestroySliders();
+            RemoveSliders();
             currentObject = null;
         }
     }
 
-    private void DestroySliders()
+    private void RemoveSliders()
     {
         if (sliderList != null)
         {
             foreach (GameObject slider in sliderList)
             {
-                Destroy(slider);
+                slider.transform.SetParent(slider.transform);
+                slider.SetActive(false);
             }
 
             sliderList = null;
