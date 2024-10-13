@@ -1,34 +1,39 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SphereGenerator : ShapeGenerator
 {
-    [SerializeField, Range(0, 20f)] private float radius = 1f;
-    [SerializeField, Range(0, 100)] private int longitudeSegments = 24;
-    [SerializeField, Range(0, 100)] private int latitudeSegments = 24;
+    [SerializeField] private Slider radiusSlider;
+    [SerializeField] private Slider longitudeSlider;
+    [SerializeField] private Slider latitudeSlider;
+
+    [SerializeField] private TextMeshProUGUI radiusText;
+    [SerializeField] private TextMeshProUGUI longitudeText;
+    [SerializeField] private TextMeshProUGUI latitudeText;
+
+    [SerializeField, Range(1f, 20f)] private float radius = 1f;
+    [SerializeField, Range(1, 100)] private int longitudeSegments = 24;
+    [SerializeField, Range(1, 100)] private int latitudeSegments = 24;
 
     private float lastRadius;
     private int lastLongitudeSegments;
     private int lastLatitudeSegments;
 
-    private void Start()
-    {
-        GenerateShape();
-        StoreLastValues();
-    }
-
-    private void Update()
-    {
-        if (HasParametersChanged())
-        {
-            GenerateShape();
-            StoreLastValues();
-        }
-    }
-
     // Реализуем абстрактный метод для генерации сферы
     public override Mesh CreateShape()
     {
         return CreateSphere(radius, longitudeSegments, latitudeSegments);
+    }
+    public override List<GameObject> GetSliders()
+    {
+        return new List<GameObject>()
+        {
+            radiusSlider.gameObject,
+            longitudeSlider.gameObject,
+            latitudeSlider.gameObject
+        };
     }
 
     // Проверка, изменились ли параметры
@@ -39,7 +44,7 @@ public class SphereGenerator : ShapeGenerator
                latitudeSegments != lastLatitudeSegments;
     }
 
-    private void StoreLastValues()
+    protected override void StoreLastValues()
     {
         lastRadius = radius;
         lastLongitudeSegments = longitudeSegments;
@@ -99,5 +104,44 @@ public class SphereGenerator : ShapeGenerator
         mesh.RecalculateNormals();
 
         return mesh;
+    }
+
+    protected override void SetUpSliders()
+    {
+        radiusSlider.minValue = 1f;
+        radiusSlider.maxValue = 20f;
+        radiusSlider.value = radius;
+        radiusText.text = $"Радиус: {radius}";
+        radiusSlider.onValueChanged.AddListener(delegate { setRadius(radiusSlider.value); });
+
+        longitudeSlider.minValue = 1;
+        longitudeSlider.maxValue = 100;
+        longitudeSlider.value = longitudeSegments;
+        longitudeText.text = $"Сегменты (долгота): {longitudeSegments}";
+        longitudeSlider.onValueChanged.AddListener(delegate { setLongitude((int)longitudeSlider.value); });
+
+        latitudeSlider.minValue = 1;
+        latitudeSlider.maxValue = 100;
+        latitudeSlider.value = latitudeSegments;
+        latitudeText.text = $"Сегменты (широта): {latitudeSegments}";
+        latitudeSlider.onValueChanged.AddListener(delegate { setLatitude((int)latitudeSlider.value); });
+    }
+
+    private void setRadius(float radiusValue)
+    {
+        radius = radiusValue;
+        radiusText.text = $"Радиус: {radius}";
+    }
+
+    private void setLongitude(int longitudeValue)
+    {
+        longitudeSegments = longitudeValue;
+        longitudeText.text = $"Грани: {longitudeSegments}";
+    }
+
+    private void setLatitude(int latitudeValue)
+    {
+        latitudeSegments = latitudeValue;
+        latitudeText.text = $"Высота: {latitudeSegments}";
     }
 }

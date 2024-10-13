@@ -1,29 +1,25 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PrismGenerator : ShapeGenerator
 {
-    [SerializeField, Range(0, 20f)] private float height = 1f; // Высота призмы
+    [SerializeField] private Slider heightSlider;
+    [SerializeField] private Slider sideFacesSlider;
+    [SerializeField] private Slider radiusSlider;
+
+    [SerializeField] private TextMeshProUGUI heightText;
+    [SerializeField] private TextMeshProUGUI sideFacesText;
+    [SerializeField] private TextMeshProUGUI radiusText;
+
+    [SerializeField, Range(1, 20f)] private float height = 1f; // Высота призмы
     [SerializeField, Range(3, 20)] private int sideFaces = 3; // Количество боковых граней
-    [SerializeField, Range(0, 20f)] private float radius = 1f; // Радиус описанной окружности
+    [SerializeField, Range(1, 20f)] private float radius = 1f; // Радиус описанной окружности
 
     private float lastHeight;
     private int lastSideFaces;
     private float lastRadius;
-
-    private void Start()
-    {
-        GenerateShape();
-        StoreLastValues();
-    }
-
-    private void Update()
-    {
-        if (HasParametersChanged())
-        {
-            GenerateShape();
-            StoreLastValues();
-        }
-    }
 
     // Проверка, изменились ли параметры
     protected override bool HasParametersChanged()
@@ -31,18 +27,27 @@ public class PrismGenerator : ShapeGenerator
         return height != lastHeight || sideFaces != lastSideFaces || radius != lastRadius;
     }
 
-    private void StoreLastValues()
+    protected override void StoreLastValues()
     {
         lastHeight = height;
         lastSideFaces = sideFaces;
         lastRadius = radius;
     }
 
-
     // Реализуем абстрактный метод для генерации параллелепипеда
     public override Mesh CreateShape()
     {
         return CreatePrism(height, sideFaces, radius);
+    }
+
+    public override List<GameObject> GetSliders()
+    {
+        return new List<GameObject>()
+        {
+            heightSlider.gameObject,
+            sideFacesSlider.gameObject,
+            radiusSlider.gameObject
+        };
     }
 
     private Mesh CreatePrism(float height, int sideFaces, float radius)
@@ -105,5 +110,44 @@ public class PrismGenerator : ShapeGenerator
         mesh.RecalculateNormals();
 
         return mesh;
+    }
+
+    protected override void SetUpSliders()
+    {
+        heightSlider.minValue = 1f;
+        heightSlider.maxValue = 20f;
+        heightSlider.value = height;
+        heightText.text = $"Высота: {height}";
+        heightSlider.onValueChanged.AddListener(delegate { setHeight(heightSlider.value); });
+
+        sideFacesSlider.minValue = 3;
+        sideFacesSlider.maxValue = 20;
+        sideFacesSlider.value = sideFaces;
+        sideFacesText.text = $"Грани: {sideFaces}";
+        sideFacesSlider.onValueChanged.AddListener(delegate { setSideFaces((int)sideFacesSlider.value); });
+
+        radiusSlider.minValue = 1f;
+        radiusSlider.maxValue = 20f;
+        radiusSlider.value = radius;
+        radiusText.text = $"Радиус: {radius}";
+        radiusSlider.onValueChanged.AddListener(delegate { setRadius(radiusSlider.value); });
+    }
+
+    private void setSideFaces(int sideFacesValue)
+    {
+        sideFaces = sideFacesValue;
+        sideFacesText.text = $"Грани: {sideFaces}";
+    }
+
+    private void setHeight(float heightValue)
+    {
+        height = heightValue;
+        heightText.text = $"Высота: {height}";
+    }
+
+    private void setRadius(float radiusValue)
+    {
+        radius = radiusValue;
+        radiusText.text = $"Радиус: {radius}";
     }
 }

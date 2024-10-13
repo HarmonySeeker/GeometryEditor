@@ -1,35 +1,41 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class CuboidGenerator : ShapeGenerator
 {
-    [SerializeField, Range(0, 20f)] private float width = 1f;    // Ширина
-    [SerializeField, Range(0, 20f)] private float height = 1f;   // Высота
-    [SerializeField, Range(0, 20f)] private float depth = 1f;    // Длина
+    [SerializeField] private Slider widthSlider;
+    [SerializeField] private Slider heightSlider;
+    [SerializeField] private Slider depthSlider;
+
+    [SerializeField] private TextMeshProUGUI widthText;
+    [SerializeField] private TextMeshProUGUI heightText;
+    [SerializeField] private TextMeshProUGUI depthText;
+
+    [SerializeField, Range(1, 20f)] private float width = 1f;    // Ширина
+    [SerializeField, Range(1, 20f)] private float height = 1f;   // Высота
+    [SerializeField, Range(1, 20f)] private float depth = 1f;    // Длина
 
     private float lastWidth;
     private float lastHeight;
     private float lastDepth;
 
-    private void Start()
-    {
-        GenerateShape();
-        StoreLastValues();
-    }
-
-    private void Update()
-    {
-        if (HasParametersChanged())
-        {
-            GenerateShape();
-            StoreLastValues();
-        }
-    }
-
     // Реализуем абстрактный метод для генерации параллелепипеда
     public override Mesh CreateShape()
     {
         return CreateCuboid(width, height, depth);
+    }
+
+    public override List<GameObject> GetSliders()
+    {
+        return new List<GameObject>()
+        {
+            widthSlider.gameObject,
+            heightSlider.gameObject,
+            depthSlider.gameObject
+        };
     }
 
     // Проверка, изменились ли параметры
@@ -38,7 +44,7 @@ public class CuboidGenerator : ShapeGenerator
         return width != lastWidth || height != lastHeight || depth != lastDepth;
     }
 
-    private void StoreLastValues()
+    protected override void StoreLastValues()
     {
         lastWidth = width;
         lastHeight = height;
@@ -76,5 +82,44 @@ public class CuboidGenerator : ShapeGenerator
         mesh.RecalculateNormals();
 
         return mesh;
+    }
+
+    protected override void SetUpSliders()
+    {
+        widthSlider.minValue = 1f;
+        widthSlider.maxValue = 20f;
+        widthSlider.value = width;
+        widthText.text = $"Ширина: {width}";
+        widthSlider.onValueChanged.AddListener(delegate { setWidth(widthSlider.value); });
+
+        heightSlider.minValue = 1f;
+        heightSlider.maxValue = 20f;
+        heightSlider.value = height;
+        heightText.text = $"Высота: {height}";
+        heightSlider.onValueChanged.AddListener(delegate { setHeight(heightSlider.value); });
+
+        depthSlider.minValue = 1f;
+        depthSlider.maxValue = 20f;
+        depthSlider.value = depth;
+        depthText.text = $"Глубина: {depth}";
+        depthSlider.onValueChanged.AddListener(delegate { setDepth(depthSlider.value); });
+    }
+
+    private void setWidth(float widthValue)
+    {
+        width = widthValue;
+        widthText.text = $"Ширина: {width}";
+    }
+
+    private void setHeight(float heightValue)
+    {
+        height = heightValue;
+        heightText.text = $"Высота: {height}";
+    }
+
+    private void setDepth(float depthValue)
+    {
+        depth = depthValue;
+        depthText.text = $"Глубина: {depth}";
     }
 }

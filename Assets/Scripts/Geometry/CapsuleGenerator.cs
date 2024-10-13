@@ -1,9 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class CapsuleGenerator : ShapeGenerator
 {
+    [SerializeField] private Slider sectorSlider;
+    [SerializeField] private Slider heightSlider;
+    [SerializeField] private Slider radiusSlider;
+
+    [SerializeField] private TextMeshProUGUI sectorText;
+    [SerializeField] private TextMeshProUGUI heightText;
+    [SerializeField] private TextMeshProUGUI radiusText;
+
     [SerializeField, Range(6, 20f)] private int sectors; // Количество секторов (вертикальных делений)
     [SerializeField, Range(1, 20f)] private float height; // Высота капсулы
     [SerializeField, Range(1, 20f)] private float radius; // Радиус капсулы
@@ -11,34 +21,6 @@ public class CapsuleGenerator : ShapeGenerator
     private int lastSectors; // Для хранения предыдущего значения секторов
     private float lastHeight; // Для хранения предыдущего значения высоты
     private float lastRadius; // Для хранения предыдущего значения радиуса
-
-    private void Start()
-    {
-        GenerateShape();
-        StoreLastValues();
-    }
-
-    private void Update()
-    {
-        if (HasParametersChanged())
-        {
-            GenerateShape();
-            StoreLastValues();
-        }
-    }
-
-    // Проверка изменения параметров
-    protected override bool HasParametersChanged()
-    {
-        return sectors != lastSectors || height != lastHeight || radius != lastRadius;
-    }
-
-    private void StoreLastValues()
-    {
-        lastSectors = sectors;
-        lastHeight = height;
-        lastRadius = radius;
-    }
 
     public override Mesh CreateShape()
     {
@@ -133,5 +115,67 @@ public class CapsuleGenerator : ShapeGenerator
         mesh.RecalculateNormals(); // Пересчет нормалей меша
 
         return mesh;
+    }
+
+    public override List<GameObject> GetSliders()
+    {
+        return new List<GameObject>()
+        {
+            heightSlider.gameObject,
+            radiusSlider.gameObject,
+            sectorSlider.gameObject
+        };
+    }
+
+    // Проверка изменения параметров
+    protected override bool HasParametersChanged()
+    {
+        return sectors != lastSectors || height != lastHeight || radius != lastRadius;
+    }
+
+    protected override void StoreLastValues()
+    {
+        lastSectors = sectors;
+        lastHeight = height;
+        lastRadius = radius;
+    }
+
+    protected override void SetUpSliders()
+    {
+        sectorSlider.minValue = 6;
+        sectorSlider.maxValue = 20;
+        sectorSlider.value = sectors;
+        sectorText.text = $"Секторы: {sectors}";
+        sectorSlider.onValueChanged.AddListener(delegate { setSector((int)sectorSlider.value); });
+
+        heightSlider.minValue = 1f;
+        heightSlider.maxValue = 20f;
+        heightSlider.value = height;
+        heightText.text = $"Высота: {height}";
+        heightSlider.onValueChanged.AddListener(delegate { setHeight(heightSlider.value); });
+
+        radiusSlider.minValue = 1f;
+        radiusSlider.maxValue = 20f;
+        radiusSlider.value = radius;
+        radiusText.text = $"Радиус: {radius}";
+        radiusSlider.onValueChanged.AddListener(delegate { setRadius(radiusSlider.value); });
+    }
+
+    private void setSector(int sectorValue)
+    {
+        sectors = sectorValue;
+        sectorText.text = $"Секторы: {sectors}";
+    }
+
+    private void setHeight(float heightValue)
+    {
+        height = heightValue;
+        heightText.text = $"Высота: {height}";
+    }
+
+    private void setRadius(float radiusValue)
+    {
+        radius = radiusValue;
+        radiusText.text = $"Радиус: {radius}";
     }
 }
