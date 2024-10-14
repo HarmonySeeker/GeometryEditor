@@ -136,12 +136,12 @@ public class SphereGenerator : ShapeGenerator
     private void setLongitude(int longitudeValue)
     {
         longitudeSegments = longitudeValue;
-        longitudeText.text = $"Грани: {longitudeSegments}";
+        longitudeText.text = $"Сегменты (долгота): {longitudeSegments}";
     }
 
     private void setLatitude(int latitudeValue)
     {
         latitudeSegments = latitudeValue;
-        latitudeText.text = $"Высота: {latitudeSegments}";
+        latitudeText.text = $"Сегменты (широта): {latitudeSegments}";
     }
 }

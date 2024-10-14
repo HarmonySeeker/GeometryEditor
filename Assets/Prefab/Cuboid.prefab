@@ -493,6 +493,7 @@ GameObject:
   m_Component:
   - component: {fileID: 392957378023002161}
   - component: {fileID: 7559478197489872729}
+  - component: {fileID: 3008420960320235035}
   m_Layer: 0
   m_Name: Cuboid
   m_TagString: GeometryObject
@@ -537,6 +538,18 @@ MonoBehaviour:
   width: 1
   height: 1
   depth: 1
+--- !u!114 &3008420960320235035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851332637871247944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbef0c4017b6ae945b8b4714e481188c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3365866241113967867
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,7 +38,6 @@ public class ControlPanelManager : MonoBehaviour
                 {
                     if (currentObject != hit.collider.gameObject)
                     {
-                        Debug.Log(hit.collider.gameObject.name);
                         currentObject = hit.collider.gameObject;
                         SetUpSliders();
                     }

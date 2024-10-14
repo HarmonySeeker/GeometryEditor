@@ -956,6 +956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6036654488100254421}
   - component: {fileID: 89591189932889315}
+  - component: {fileID: 4066609036089955617}
   m_Layer: 0
   m_Name: Prism
   m_TagString: GeometryObject
@@ -1000,6 +1001,18 @@ MonoBehaviour:
   height: 1
   sideFaces: 3
   radius: 1
+--- !u!114 &4066609036089955617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5779650376296548189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbef0c4017b6ae945b8b4714e481188c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5821232926831968980
 GameObject:
   m_ObjectHideFlags: 0

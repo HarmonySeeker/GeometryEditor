@@ -1264,6 +1264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7304646603663174558}
   - component: {fileID: 5967301394077857293}
+  - component: {fileID: -2949648264617755773}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: GeometryObject
@@ -1308,6 +1309,18 @@ MonoBehaviour:
   sectors: 10
   height: 3
   radius: 1
+--- !u!114 &-2949648264617755773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453058186362935973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbef0c4017b6ae945b8b4714e481188c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6798325530437883224
 GameObject:
   m_ObjectHideFlags: 0

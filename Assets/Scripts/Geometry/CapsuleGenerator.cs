@@ -145,7 +145,7 @@ public class CapsuleGenerator : ShapeGenerator
         sectorSlider.minValue = 6;
         sectorSlider.maxValue = 20;
         sectorSlider.value = sectors;
-        sectorText.text = $"Секторы: {sectors}";
+        sectorText.text = $"Грани: {sectors}";
         sectorSlider.onValueChanged.AddListener(delegate { setSector((int)sectorSlider.value); });
 
         heightSlider.minValue = 1f;
@@ -164,7 +164,7 @@ public class CapsuleGenerator : ShapeGenerator
     private void setSector(int sectorValue)
     {
         sectors = sectorValue;
-        sectorText.text = $"Секторы: {sectors}";
+        sectorText.text = $"Грани: {sectors}";
     }
 
     private void setHeight(float heightValue)

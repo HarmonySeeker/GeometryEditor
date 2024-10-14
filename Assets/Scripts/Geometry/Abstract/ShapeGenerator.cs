@@ -23,6 +23,14 @@ public abstract class ShapeGenerator : MonoBehaviour
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
             meshRenderer.material = new Material(Shader.Find("Standard"));
         }
+
+        MeshCollider meshCollider = GetComponent<MeshCollider>();
+        if (meshCollider == null)
+        {
+            meshCollider = gameObject.AddComponent<MeshCollider>();
+        }
+        meshCollider.sharedMesh = null;  // —брос текущего коллайдера
+        meshCollider.sharedMesh = meshFilter.mesh;
     }
 
     public abstract List<GameObject> GetSliders();
